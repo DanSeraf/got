@@ -86,10 +86,6 @@ export default {
   mounted () {
     this.logged = this.$store.state.logged;
     this.user = this.$store.getters.user;
-    this.userId = this.$store.getters.uid;
-    this.uroute_user = this.$store.getters.uroute_user;
-    this.uroute_profile = this.$store.getters.uroute_profile;
-    this.uroute_reports = this.$store.getters.uroute_reports;
     this.username = this.$store.getters.username;
   },
 
@@ -97,10 +93,6 @@ export default {
     this.logged = this.$store.state.logged;
     this.user = this.$store.getters.user;
     this.username = this.$store.getters.username;
-    this.userId = this.$store.getters.uid;
-    this.uroute_user = this.$store.getters.uroute_user;
-    this.uroute_profile = this.$store.getters.uroute_profile;
-    this.uroute_reports = this.$store.getters.uroute_reports;
   },
 }
 </script>

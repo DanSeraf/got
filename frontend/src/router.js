@@ -7,11 +7,6 @@ import HelloWorld from './components/HelloWorld.vue'
 import Login from './views/Login.vue'
 import SignUp from './views/SignUp.vue'
 import Reports from './views/Reports.vue'
-import User from './views/User.vue'
-import UserComp from './components/User/UserComp.vue'
-import UserProfile from './components/User/UserProfile.vue'
-import UserReports from './components/User/UserReports.vue'
-import Movies from "./views/Movies.vue";
 import Rules from "./views/Rules";
 
 
@@ -56,27 +51,6 @@ const router = new Router({
       }
     },
     {
-      path: '/user/:id',
-      component: User,
-      meta: {
-        requiresAuth: true
-      },
-      children: [
-        {
-          path: '',
-          component: UserComp
-        },
-        {
-          path: 'profile',
-          component: UserProfile
-        },
-        {
-          path: 'reports',
-          component: UserReports
-        }
-      ]
-    },
-    {
       path: '/report',
       name: 'reports',
       component: Reports,
@@ -84,14 +58,6 @@ const router = new Router({
         requiresAuth: true
       }
     },
-    {
-      path: '/movies/:id',
-      name: 'movies',
-      component: Movies,
-      meta: {
-        requiresAuth: true
-      }
-    }
   ]
 });
 
