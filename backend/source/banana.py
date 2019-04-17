@@ -14,59 +14,79 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
-class User(db.Model):
-    uid = db.Column(db.Integer, primary_key=True)
-    fire_id = db.Column(db.String(80))
+assoc_table = db.Table('assoc_table',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.uid')),
+    db.Column('character_id', db.Integer, db.ForeignKey('characters.cid'))
+)
+
+class Users(db.Model):
+    uid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.String(80))
     username = db.Column(db.String(80))
-                                    
+    
+    characters = db.relationship('Characters', secondary=assoc_table,
+            backref = db.backref('users'))
+
     def __repr__(self):
-        return '[%s, %s, %s]' %(self.uid, self.fire_id, self.username)
+        return '%s, %s, %s' %(self.uid, self.email, self.username)
 
-def initDB(path):
-    conn = sqlite3.connect(path)
+class Characters(db.Model):
+    cid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(80))
+    pic = db.Column(db.String(80))
+    value = db.Column(db.Integer)
 
-def mapDB(db):
-    c = sqlite3.connect('db/movies.db')
-    cur = c.cursor()                                   
-    cur.execute(''' SELECT * FROM movies ''')
-    all_movies = cur.fetchall()
+    def __repr__(self):
+        return '%s, %s, %s' %(self.cid, self.name, self.pic)
+
+def initCharacters():
+    file = open('extrated.txt')
+    f_str = file.read()
+    characters_dict = json.loads(f_str)
+    for name in characters_dict:
+        print(name)
+        new_character = Characters(name = name, pic = characters_dict[name], value=2)
+        db.session.add(new_character)
+
+def mapDB():
     db.create_all()
-    for movie in all_movies:
-        new_movie = Movies(mid=movie[0], title=movie[1], year=movie[2], poster=movie[3])
-        db.session.add(new_movie)
+    initCharacters()
     db.session.commit()
 
 @app.route('/user/new-user', methods=['GET', 'POST'])
 def newUser():
     uname = request.args.get('username')
-    fid = request.args.get('uid')
-    user_id = '23'
-    print(uname)
-    print(fid)
-    user = User(uid = user_id, fire_id = fid, username = uname)
+    email = request.args.get('email')
+    user = Users(email = email, username = uname)
+    db.session.add(user)
+    db.session.commit()
+    #q = Users.query.filter_by(email = email).first()
+    #print(q.__dict__)
+    #for i in range(1,35):
     return jsonify({'status': 'ok'})
 
-@app.route('/movies/year/<n>', methods=['GET'])
-def searchByYear(n):
-    qres = Movies.query.filter_by(year=n).all()
+@app.route('/characters/all', methods=['GET'])
+def allCharacters():
+    qres = Characters.query.all()
     return json.dumps(qres, cls=AlchemyEncoder)
 
-@app.route('/movies/search/<name>', methods=['GET'])
-def searchByTitle(name):
-    qres = Movies.query.filter(Movies.title.like('%'+name+'%')).all()
+@app.route('/user/get_username', methods=['POST'])
+def getUsername():
+    email = request.args.get('email')
+    qres = Users.query.filter_by(email = email).all()
+    res = qres[0].__dict__
+    username = res['username']
+    print(username)
+    return json.dumps(username)
+
+@app.route('/user/get/', methods=['GET'])
+def getUser():
+    qres = Users.query.filter_by(username = 'nyme').first()
     return json.dumps(qres, cls=AlchemyEncoder)
 
-@app.route('/movies/mid/<id>', methods=['GET'])
-def movieBy(id):
-    print(id)
-    qres = Movies.query.filter_by(mid=id).all()
-    return json.dumps(qres, cls=AlchemyEncoder)
+#@app.route('/selected', methods=['POST'])
+#def postForm():
 
-@app.route('/movies/available_years', methods=['GET'])
-def allYears():
-    qres = Movies.query.with_entities(Movies.year).order_by(Movies.year.desc()).distinct().all()
-    return json.dumps(qres)
 
 if __name__ == '__main__':
-    #mapDB(db)
-    app.run(port=8443, debug=True)
+    app.run(host="0.0.0.0", port=8443, debug=True)
