@@ -35,6 +35,8 @@
           >
           Sign Up
         </v-btn>
+
+
       </v-flex>
       <h1>{{ success }}</h1>
     </v-layout>
@@ -65,7 +67,7 @@ export default {
     signUpPost () {
         firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
             function () {
-                alert("Hey your account has been created! Remember to verify your email before logging in!")
+                alert("Hey your account has been created!")
             },
             function (err) {
                 alert('Problem with signin up: ' + err.message)
@@ -81,7 +83,8 @@ export default {
         this.post_user();
         this.$router.replace('home')
 
-      }
+      },
+
   },
 }
 </script>

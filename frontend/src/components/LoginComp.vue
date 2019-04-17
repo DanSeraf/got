@@ -22,18 +22,22 @@
           required
         ></v-text-field>
       </v-form>
-      <v-btn
-        color="success"
+
+        <v-btn
+        style="background: #2096f3 !important;"
         @click.native="loginPost()"
       >
         Login
       </v-btn>
-      or 
+        <v-btn @click="socialLogin" class="social-button">
+          <v-img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Google Logo"></v-img>
+        </v-btn>
+        <p>or
       <router-link to="/sign-up">
         <button class="create-text">
           Create an account
         </button>
-        </router-link>
+        </router-link></p>
         <h1>{{ error }}</h1>
     </v-flex>
   </v-layout>
@@ -42,42 +46,85 @@
 
 <script>
 import firebase from 'firebase'
+import {HTTP} from '../http-common.js'
+
 
 export default {
   data: () => ({
     email: '',
     password: '',
     show: false,
-    error: ''
+    username: '',
+    error: '',
+    posted: false
   }),
 
   methods: {
-    loginPost () {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-        () => {
-          const user = firebase.auth().currentUser;
-          if(user.emailVerified==true) {
-              this.$store.commit('addUser', user)
-              this.$store.commit('logged')
-              this.$router.replace('home')
-          }else{
-              this.error="Please verify your email!"
+      loginPost() {
+          firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+              () => {
+                  const user = firebase.auth().currentUser;
+                  this.$store.commit('addUser', user)
+                  this.$store.commit('logged')
+                  this.checkLogin()
+              },
+              (err) => {
+                  alert('error while signin: ' + err.message)
+              }
+          ).catch(e => (window.console.log("error during signIn option: " + e)))
+      },
+
+      socialLogin() {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          firebase.auth().signInWithPopup(provider).then((result) => {
+              this.checkLogin()
+              alert(result)
+          }).catch((err) => {
+              alert('Oops.' + err.message)
+          });
+      },
+
+      checkLogin(){
+        HTTP.post('/user/get-username?email=' + this.email + '')
+          .then(response => {
+            this.username = response.data.username
+            this.posted = response.data.posted
+            this.$store.commit('addUsername', this.username)
+            this.$store.commit('addStatus', this.posted)
+          })
+          .catch(e => (window.console.log('error getting username: ' + e)));
+          window.console.log(this.posted)
+          if (this.posted === true) {
+            this.$router.replace('about')
           }
-        },
-        (err) => {
-          alert('error while signin: ' + err.message)
-        }
-      ).catch(e => (window.console.log("error during signIn option: " + e)))
-    }
-  }
+          this.$router.push('rules')
+      }
+
+
+  },
 }
 </script>
 
 <style scoped>
-.create-account {
-  position: absolute;
-  color: blue;
-}
+  .social-button img{
+    size: auto;
+
+  }
+  .social-button{
+    width: 170px;
+    height: 40px;
+    background: #fff;
+
+  }
+  .v-btn:not(.v-btn--depressed):not(.v-btn--flat) {
+    will-change: box-shadow;
+    -webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0) !important;
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0) !important;
+  }
+  .theme--light.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
+     background-color: white !important;
+  }
+
 .create-text {
   color: blue;
   padding-left: 2%;

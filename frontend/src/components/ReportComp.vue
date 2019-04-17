@@ -1,9 +1,11 @@
 <template>
   <v-container>
-    <p>{{ currentUser.id }}</p>
-    <li v-for="report in reports" v-bind:key="report.id">
-      {{ report.task }}
-    </li>
+    <v-flex xs12 sm5 md4 lg3>
+      <v-card flat class="text-xs-center ma-3" color="grey lighten-4">
+        <h2>My Profile</h2>
+        <p>Email: {{ currentUser.email }}</p>
+      </v-card>
+    </v-flex>
   </v-container>
 </template>
 

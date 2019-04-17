@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import firebase from 'firebase'
+import store from './store/index.js'
 
 import HelloWorld from './components/HelloWorld.vue'
 import Login from './views/Login.vue'
@@ -11,6 +12,7 @@ import UserComp from './components/User/UserComp.vue'
 import UserProfile from './components/User/UserProfile.vue'
 import UserReports from './components/User/UserReports.vue'
 import Movies from "./views/Movies.vue";
+import Rules from "./views/Rules";
 
 
 Vue.use(Router)
@@ -20,6 +22,11 @@ const router = new Router({
     {
       path: '/',
       redirect: 'home'
+    },
+    {
+      path:'/rules',
+      name:'rules',
+      component: Rules
     },
     {
       path: '/about',
@@ -44,7 +51,8 @@ const router = new Router({
       name: 'home',
       component: HelloWorld,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        postedCondition: store.getters.posted
       }
     },
     {
@@ -90,8 +98,18 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if (requiresAuth && !currentUser) next('login');
-  else next();
+  const postedCondition = to.matched.some(record => record.meta.postedCondition);
+
+  if (requiresAuth && !currentUser){
+    next('login')
+  }else{
+    if (postedCondition) {
+        next('rules')
+      } else {
+        next()
+      }
+    }
 });
+
 
 export default router;

@@ -9,23 +9,30 @@ const store = new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     user: '',
+    username:'',
     user_id: '',
     uroute_profile: '',
-	uroute_reports: '',
+    uroute_reports: '',
     uroute_user: '',
     logged: false,
-    full_uid: ''
+    posted: false
   },
 
   mutations: {
     addUser(state, user) {
       state.user = user;
-      state.full_uid = user.uid;
       state.user_id = user.uid.slice(0,9);
       state.uroute_profile = '/user/' + state.user_id + '/profile'
       state.uroute_reports = '/user/' + state.user_id + '/reports' 
-      state.uroute_user = '/user/' + state.user_id +
-      window.console.log(state.user_id)
+      state.uroute_user = '/user/' + state.user_id
+    },
+
+    addUsername(state, username){
+      state.username= username;
+    },
+
+    addStatus(state, posted) {
+      state.posted = posted;
     },
 
     noLogged(state) {
@@ -43,6 +50,8 @@ const store = new Vuex.Store({
       state.uroute_reports = '';		
       state.uroute_user = '';		
       state.logged = false;
+      state.username = '';
+      state.posted = false;
     }
   },
 
@@ -68,9 +77,15 @@ const store = new Vuex.Store({
     uroute_user: (state) => {
       return `${state.uroute_user}`;
     },
-    full_uid: (state) => {
-      return `${state.full_uid}`;
-    }
+    username: (state) => {
+      return `${state.username}`;
+    },
+    logged: (state) => {
+      return `${state.logged}`;
+    },
+    posted: (state) => {
+      return `${state.posted}`;
+    },
   }
 })
 
