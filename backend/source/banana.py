@@ -24,7 +24,7 @@ class Users(db.Model):
     characters = db.relationship('Userscharacters', backref='users', lazy='dynamic')
 
     def __repr__(self):
-        return '%s, %s, %s, %s' %(self.uid, self.email, self.username)
+        return '%s, %s, %s, %s' %(self.uid, self.email, self.username, self.posted)
 
 class Userscharacters(db.Model):
     __tablename__ = 'userscharacters'
@@ -76,11 +76,15 @@ def allCharacters():
 @app.route('/user/get-username', methods=['POST'])
 def getUsername():
     email = request.args.get('email')
-    user = Users.query.filter_by(email = email).all()
-    res = user[0].__dict__
-    username = res['username']
-    posted = res['posted']
-    return json.dumps({'username': username, 'posted': posted})
+    try:
+        user = Users.query.filter_by(email = email).all()
+        res = user[0].__dict__
+        username = res['username']
+        posted = res['posted']
+        return json.dumps({'status': 'ok', 'username': username, 'posted': posted})
+    except IndexError:
+        return json.dumps({'status': 'error'})
+
 
 @app.route('/user/<username>', methods=['GET'])
 def getUser(username):
@@ -108,9 +112,14 @@ def postData():
 
     return json.dumps({'status':'ok'})
 
-#@app.route('/user/posted', methods=['POST'])
-#def posted():
-
+@app.route('/user/gamesheet', methods=['POST'])
+def gameSheet():
+    email = request.args.get('email')
+    raw_u = Users.query.filter_by(email = email).first()
+    user = raw_u.__dict__
+    uid = user['uid']
+    raw_uc = Userscharacters.query.filter_by(user_id = uid).all()
+    return json.dumps(raw_uc, cls=AlchemyEncoder)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8443, debug=True)
