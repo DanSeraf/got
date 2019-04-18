@@ -8,6 +8,7 @@ import Login from './views/Login.vue'
 import SignUp from './views/SignUp.vue'
 import Reports from './views/Reports.vue'
 import Rules from "./views/Rules";
+import Leaderboard from "./views/Leaderboard";
 
 
 Vue.use(Router)
@@ -58,6 +59,11 @@ const router = new Router({
         requiresAuth: true
       }
     },
+    {
+      path: '/leaderboard',
+      name: 'leaderboard',
+      component: Leaderboard
+    }
   ]
 });
 

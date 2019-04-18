@@ -2,9 +2,7 @@
   <v-app>
     <v-navigation-drawer
         v-model="drawer"
-        absolute
-        temporary
-        right
+        fixed
     >
       <v-list-tile to="/report" v-if="logged">
             <v-list-tile-title>My Profile</v-list-tile-title>
@@ -12,7 +10,7 @@
 
       <v-divider></v-divider>
 
-      <v-list-tile to="/home">
+      <v-list-tile to="/leaderboard">
         <v-list-tile-content>
             <v-list-tile-title>Leaderboard</v-list-tile-title>
         </v-list-tile-content>
@@ -34,9 +32,17 @@
         </v-list-tile-content>
       </v-list-tile>
 
+      <v-divider></v-divider>
+
+      <v-list-tile to="/login" v-if="!logged">
+        <v-list-tile-content>
+          <v-list-tile-title>Login</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
     </v-navigation-drawer>
 
-    <v-toolbar fixed color="blue" app>
+    <v-toolbar fixed="true" color="blue" app>
         <router-link to="" tag="button">
           img
         </router-link>
@@ -64,12 +70,7 @@ export default {
     drawer: false,
     clipped: true,
     logged: false,
-    userId: null,
-    user: null,
     username: '',
-    uroute_profile: '',
-    uroute_reports: '',
-    uroute_user: '',
   }),
 
   methods: {

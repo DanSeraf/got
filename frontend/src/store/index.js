@@ -11,7 +11,8 @@ const store = new Vuex.Store({
     user: '',
     username:'',
     logged: false,
-    posted: false
+    posted: false,
+    access_type: ''
   },
 
   mutations: {
@@ -25,6 +26,10 @@ const store = new Vuex.Store({
 
     addStatus(state, posted) {
       state.posted = posted;
+    },
+
+    addAccessType(state, type){
+      state.access_type = type;
     },
 
     noLogged(state) {

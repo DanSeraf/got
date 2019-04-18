@@ -1,7 +1,10 @@
 <template>
   <v-container fluid align-center justify-center>
+
     <v-layout>
+
       <v-flex s6 lg3 style="position: absolute; left: 40%; top: 20%;">
+
         <h1>Sign in</h1>
         <v-form
           ref="form"
@@ -25,13 +28,15 @@
 
         <v-btn
         style="background: #2096f3 !important;"
-        @click.native="loginPost()"
+        @click.native="loginPost"
       >
         Login
       </v-btn>
         <v-btn @click="socialLogin" class="social-button">
           <v-img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Google Logo"></v-img>
         </v-btn>
+        <v-btn @click = "socialLoginFb">Facebook Signin</v-btn>
+
         <p>or
       <router-link to="/sign-up">
         <button class="create-text">
@@ -66,7 +71,8 @@ export default {
                   const user = firebase.auth().currentUser;
                   this.$store.commit('addUser', user)
                   this.$store.commit('logged')
-                  this.checkLogin()
+                  this.$store.commit('addAccessType', 'normal')
+                  this.checkLogin(this.email)
               },
               (err) => {
                   alert('error while signin: ' + err.message)
@@ -84,8 +90,8 @@ export default {
           });
       },
 
-      checkLogin(){
-        HTTP.post('/user/get-username?email=' + this.email + '')
+      checkLogin(email){
+        HTTP.post('/user/get-username?email=' + email + '')
           .then(response => {
             this.username = response.data.username
             this.posted = response.data.posted
@@ -98,14 +104,26 @@ export default {
             this.$router.replace('about')
           }
           this.$router.push('rules')
+      },
+
+      socialLoginFb() {
+        const provider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithPopup(provider).then((result) =>{
+          this.$store.commit('addAccessType', 'face')
+          this.$store.commit('addUsername', result.additionalUserInfo.username)
+          this.$store.commit('logged')
+          this.checkLogin(result.additionalUserInfo.profile.email)
+          alert(result)
+        }).catch((err) => {
+          alert('Oops.'+err.message)
+        });
       }
-
-
   },
 }
 </script>
 
 <style scoped>
+
   .social-button img{
     size: auto;
 
