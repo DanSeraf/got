@@ -2,10 +2,9 @@
   <v-app>
     <v-navigation-drawer
         v-model="drawer"
-        fixed
-        absolute
         temporary
         app
+        style="position:fixed; top:0; left:0; overflow-y:scroll;"
     >
       <v-list-tile to="/report" v-if="logged">
             <v-list-tile-title>My Profile</v-list-tile-title>
