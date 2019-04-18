@@ -22,7 +22,7 @@
         </v-hover>
       </v-flex>
     </v-layout>
-      <v-btn :disabled="checkSendForm()" v-on:click="sendForm()" color="success">Send</v-btn>
+      <v-btn :disabled="!checkSendForm()" v-on:click="sendForm()" color="success" to="report">Send</v-btn>
       <h1>{{ message }}</h1>
     </v-container>
 </template>
@@ -77,7 +77,6 @@
 
         checkSendForm() {
           for (let character in this.user_form) {
-            window.console.log(this.user_form[character])
             if (this.user_form[character] === 2) {
               return false
             }

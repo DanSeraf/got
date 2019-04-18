@@ -12,12 +12,17 @@ const store = new Vuex.Store({
     username:'',
     logged: false,
     posted: false,
-    access_type: ''
+    access_type: '',
+    email: ''
   },
 
   mutations: {
     addUser(state, user) {
       state.user = user;
+    },
+
+    addEmail(state, email){
+      state.email = email
     },
 
     addUsername(state, username){
@@ -45,6 +50,7 @@ const store = new Vuex.Store({
       state.logged = false;
       state.username = '';
       state.posted = false;
+      state.email = '';
     }
   },
 
@@ -55,6 +61,9 @@ const store = new Vuex.Store({
   },
 
   getters: {
+    email: (state) => {
+      return `${state.email}`;
+    },
     user: (state) => {
       return `${state.user}`;
     },

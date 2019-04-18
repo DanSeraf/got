@@ -83,7 +83,11 @@ export default {
       socialLogin() {
           const provider = new firebase.auth.GoogleAuthProvider();
           firebase.auth().signInWithPopup(provider).then((result) => {
-              this.checkLogin()
+              this.checkEmail(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.name)
+              this.$store.commit('addAccessType', 'goog')
+              this.$store.commit('addUsername', result.additionalUserInfo.profile.name)
+              this.$store.commit('logged')
+              this.checkLogin(result.additionalUserInfo.profile.email)
               alert(result)
           }).catch((err) => {
               alert('Oops.' + err.message)
@@ -97,6 +101,7 @@ export default {
             this.posted = response.data.posted
             this.$store.commit('addUsername', this.username)
             this.$store.commit('addStatus', this.posted)
+            this.$store.commit('addEmail', email)
             window.console.log(this.posted)
             this.$router.replace('rules')
             })
@@ -106,15 +111,27 @@ export default {
       socialLoginFb() {
         const provider = new firebase.auth.FacebookAuthProvider();
         firebase.auth().signInWithPopup(provider).then((result) =>{
+          this.checkEmail(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.name)
           this.$store.commit('addAccessType', 'face')
-          this.$store.commit('addUsername', result.additionalUserInfo.username)
+          this.$store.commit('addUsername', result.additionalUserInfo.profile.name)
           this.$store.commit('logged')
           this.checkLogin(result.additionalUserInfo.profile.email)
           alert(result)
         }).catch((err) => {
           alert('Oops.'+err.message)
         });
+      },
+
+      checkEmail(email, username) {
+        HTTP.post('/user/get-username?email=' + email + '')
+          .then(response => {
+            if (response.data.status == 'error') {
+              HTTP.post('/user/new-user?username=' +username+ '&email=' +email)
+            }
+          })
       }
+
+
   },
 }
 </script>
