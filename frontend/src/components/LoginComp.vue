@@ -97,13 +97,10 @@ export default {
             this.posted = response.data.posted
             this.$store.commit('addUsername', this.username)
             this.$store.commit('addStatus', this.posted)
-          })
+            window.console.log(this.posted)
+            this.$router.replace('rules')
+            })
           .catch(e => (window.console.log('error getting username: ' + e)));
-          window.console.log(this.posted)
-          if (this.posted === true) {
-            this.$router.replace('about')
-          }
-          this.$router.push('rules')
       },
 
       socialLoginFb() {

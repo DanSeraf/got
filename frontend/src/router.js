@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import firebase from 'firebase'
-import store from './store/index.js'
 
+import store from './store/index.js'
 import HelloWorld from './components/HelloWorld.vue'
 import Login from './views/Login.vue'
 import SignUp from './views/SignUp.vue'
@@ -10,19 +9,25 @@ import Reports from './views/Reports.vue'
 import Rules from "./views/Rules";
 import Leaderboard from "./views/Leaderboard";
 
-
 Vue.use(Router)
 
 const router = new Router({
   routes: [
     {
+      path: '*',
+      redirect: '/',
+    },
+    {
       path: '/',
-      redirect: 'home'
+      redirect: 'login'
     },
     {
       path:'/rules',
       name:'rules',
-      component: Rules
+      component: Rules,
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
       path: '/about',
@@ -48,7 +53,6 @@ const router = new Router({
       component: HelloWorld,
       meta: {
         requiresAuth: true,
-        postedCondition: store.getters.posted
       }
     },
     {
@@ -68,20 +72,15 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const postedCondition = to.matched.some(record => record.meta.postedCondition);
+  const stat = store.getters.posted
+  window.console.log('ROUTER' + stat)
 
-  if (requiresAuth && !currentUser){
-    next('login')
-  }else{
-    if (postedCondition) {
-        next('rules')
-      } else {
-        next()
-      }
-    }
+  if (requiresAuth && stat){
+      next('leaderboard')
+  } else { next() }
+
+
 });
-
 
 export default router;

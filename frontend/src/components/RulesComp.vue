@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <br>
-    <br>
-    <h2>Welcome to FantaMorto of Game Of Thrones, the rules are simple:</h2>
+    <br/>
+    <br/>
+    <h2>Welcome {{ username }} to FantaMorto of Game Of Thrones, the rules are simple:</h2>
     <br>
     <h4>1) Once you logged in, you will face all the characters that are still alive;</h4><br>
     <h4>2) You've to select if a Character will live or die during the Season 8;</h4><br>
@@ -15,7 +15,6 @@
     <router-link to="/home">
       <v-btn
           style="background: #2096f3 !important;"
-          @onclick="home"
       >
         Lets start
       </v-btn>
@@ -24,13 +23,15 @@
 </template>
 
 <script>
-    export default {
-        mounted(){
-          if (this.$store.getters.posted === true) {
-            this.state = false
-          }
-        }
-    }
+export default {
+  data: () => ({
+    username: ''
+  }),
+
+  mounted() {
+    this.username = this.$store.getters.username
+  }
+}
 </script>
 
 <style scoped>

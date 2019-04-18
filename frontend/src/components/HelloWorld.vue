@@ -1,7 +1,7 @@
 <template>
     <v-container fluid class="my-5">
     <v-layout row wrap>
-      <v-flex xs12 sm6 md5 lg3
+      <v-flex xs12 sm6 md5 lg2
               v-for="item in characters"
               :key="item.cid"
       >
@@ -93,6 +93,7 @@
             .then((response) => {
               window.console.log(response)
               if (response['data']['status'] === 'ok') {
+                this.$store.commit('addStatus', true)
                 this.message = 'Your request has been send'
               } else {
                 this.message = 'Error'
@@ -104,9 +105,6 @@
       },
 
       mounted() {
-        if (this.$store.getters.posted) {
-          this.$router.replace('rules')
-        }
         HTTP.get('characters/all')
           .then(response => {
             this.characters = response['data']
@@ -123,17 +121,6 @@
           })
 
       },
-      created() {
-        if (this.$store.getters.posted) {
-          this.$router.replace('rules')
-        }
-
-      },
-      beforeCreate() {
-        if (this.$store.getters.posted) {
-          this.$router.replace('rules')
-        }
-      }
 
     }
 </script>

@@ -3,6 +3,9 @@
     <v-navigation-drawer
         v-model="drawer"
         fixed
+        absolute
+        temporary
+        app
     >
       <v-list-tile to="/report" v-if="logged">
             <v-list-tile-title>My Profile</v-list-tile-title>
@@ -42,14 +45,14 @@
 
     </v-navigation-drawer>
 
-    <v-toolbar fixed="true" color="blue" app>
+    <v-toolbar color="blue" app>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" ></v-toolbar-side-icon>
         <router-link to="" tag="button">
           img
         </router-link>
 
         <v-spacer></v-spacer>
 
-      <v-toolbar-side-icon @click.stop="drawer = !drawer" ></v-toolbar-side-icon>
     </v-toolbar>
 
     <v-content>
@@ -78,7 +81,6 @@ export default {
       firebase.auth().signOut().then(() => {
         this.$store.dispatch('resetUserStore')
         this.$router.replace('login')
-
       })
         .catch(e => (window.console.log('error logging out: ' + e)))
     }

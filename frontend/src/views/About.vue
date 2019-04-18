@@ -1,6 +1,5 @@
 <template>
   <div class="about">
-
     <SimpleAbout/>
   </div>
 </template>
