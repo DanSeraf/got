@@ -60,7 +60,7 @@ const router = new Router({
       name: 'reports',
       component: Reports,
       meta: {
-        requiresAuth: true
+        requiresAuthProf: true,
       }
     },
     {
@@ -73,14 +73,17 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const requiresAuthProf = to.matched.some(record => record.meta.requiresAuthProf);
   const stat = store.getters.posted
+  const logged = store.getters.logged == 'false'
   var notposted = stat == 'false'
   var posted = stat == 'true'
   window.console.log(posted)
   window.console.log(notposted)
 
-
-  if (requiresAuth && posted){
+  if (requiresAuthProf && logged) {
+    next('leaderboard') 
+  } else if (requiresAuth && posted){
     next('leaderboard')
   } else if(requiresAuth && notposted){
     next()
