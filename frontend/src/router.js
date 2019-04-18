@@ -74,10 +74,16 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   const stat = store.getters.posted
-  window.console.log('ROUTER' + stat)
+  var notposted = stat == 'false'
+  var posted = stat == 'true'
+  window.console.log(posted)
+  window.console.log(notposted)
 
-  if (requiresAuth && stat){
-      next('leaderboard')
+
+  if (requiresAuth && posted){
+    next('leaderboard')
+  } else if(requiresAuth && notposted){
+    next()
   } else { next() }
 
 

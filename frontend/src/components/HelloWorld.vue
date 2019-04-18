@@ -35,8 +35,8 @@
     export default {
       data: () => ({
         characters: null,
-        buttonStates: {},
-        user_form: {},
+        buttonStates: null,
+        user_form: null,
         message: ''
       }),
 
@@ -76,7 +76,7 @@
         },
 
         checkSendForm() {
-          for (var character in this.user_form) {
+          for (let character in this.user_form) {
             window.console.log(this.user_form[character])
             if (this.user_form[character] === 2) {
               return false

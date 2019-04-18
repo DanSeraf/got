@@ -81,7 +81,7 @@ export default {
       handler(){
         this.signUpPost();
         this.post_user();
-        this.$router.replace('home')
+        this.$router.replace('login')
 
       },
 
