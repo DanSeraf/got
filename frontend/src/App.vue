@@ -46,9 +46,10 @@
 
     <v-toolbar color="blue" app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" ></v-toolbar-side-icon>
-        <router-link to="" tag="button">
-          img
-        </router-link>
+          <v-img style="position:absolute; top:2%; left:10%; right: 10%; height: 225px;
+    width: 100px;
+    max-width: 230px;
+    max-height: 230px;" src="https://i.ibb.co/hVFdqfd/Fantag3.png"></v-img>
 
         <v-spacer></v-spacer>
 
@@ -73,7 +74,9 @@ export default {
     clipped: true,
     logged: false,
     username: '',
+
   }),
+
 
   methods: {
     logout () {
@@ -84,6 +87,7 @@ export default {
         .catch(e => (window.console.log('error logging out: ' + e)))
     }
   },
+
 
   mounted () {
     this.logged = this.$store.state.logged;

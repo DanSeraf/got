@@ -1,10 +1,12 @@
 <template>
   <v-container fluid>
-    <v-layout>
-      <v-flex s6 lg3 style="position: absolute; left: 40%; top: 20%;">
+    <v-layout class="justify-center">
+
+    <v-flex xs12 md5 s6 lg3>
       <h1 class="title-text"> Create a new account </h1>
       <v-form
         ref="form"
+
         >
         <v-text-field
           v-model="username"

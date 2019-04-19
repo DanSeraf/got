@@ -1,9 +1,9 @@
 <template>
   <v-container fluid align-center justify-center>
 
-    <v-layout>
+    <v-layout class="justify-center">
 
-      <v-flex s6 lg3 style="position: absolute; left: 40%; top: 20%;">
+      <v-flex xs12 md5 s6 lg3>
 
         <h1>Sign in</h1>
         <v-form
@@ -35,7 +35,9 @@
         <v-btn @click="socialLogin" class="social-button">
           <v-img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Google Logo"></v-img>
         </v-btn>
-        <v-btn @click = "socialLoginFb">Facebook Signin</v-btn>
+        <v-btn @click = "socialLoginFb" class="social-button" >
+          <v-img src="https://scontent-fco1-1.xx.fbcdn.net/v/t39.2365-6/17639236_1785253958471956_282550797298827264_n.png?_nc_cat=105&_nc_ht=scontent-fco1-1.xx&oh=7d0ae1c0252bf2122914a94131ba4e14&oe=5D2A5CEA" alt="Facebook Logo"></v-img>
+        </v-btn>
 
         <p>or
       <router-link to="/sign-up">
@@ -46,7 +48,11 @@
         <h1>{{ error }}</h1>
     </v-flex>
   </v-layout>
-</v-container>
+    <v-footer app absolute color="#fafafa" class="pa-3">
+      <div>&copy; {{ new Date().getFullYear() }} F-Got </div>
+    </v-footer>
+  </v-container>
+
 </template>
 
 <script>
