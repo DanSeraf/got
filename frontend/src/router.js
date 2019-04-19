@@ -78,18 +78,14 @@ router.beforeEach((to, from, next) => {
   const logged = store.getters.logged == 'false'
   var notposted = stat == 'false'
   var posted = stat == 'true'
-  window.console.log(posted)
-  window.console.log(notposted)
 
   if (requiresAuthProf && logged) {
-    next('leaderboard') 
+    next('report') 
   } else if (requiresAuth && posted){
-    next('leaderboard')
+    next('report')
   } else if(requiresAuth && notposted){
     next()
   } else { next() }
-
-
 });
 
 export default router;

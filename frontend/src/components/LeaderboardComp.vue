@@ -1,4 +1,5 @@
 <template>
+  <!--
   <v-data-table
       :items="desserts"
       class="elevation-1"
@@ -10,6 +11,8 @@
       <td class="text-xl-right">{{ props.item.score }}</td>
     </template>
   </v-data-table>
+  -->
+  <h1 style="margin-top: 10%; ">Coming soon</h1>
 </template>
 
 <script>
@@ -32,7 +35,6 @@
           {
             name: 'Frozen Yogurt',
             score: 159,
-
           },
         ]
       }

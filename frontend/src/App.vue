@@ -1,21 +1,20 @@
 <template>
   <v-app>
     <v-navigation-drawer
-        v-model="drawer"
-        temporary
-        app
-        style="position:fixed; top:0; left:0; overflow-y:scroll;"
-
+      v-model="drawer"
+      temporary
+      app
+      style="position:fixed; top:0; left:0; overflow-y:scroll;"
     >
       <v-list-tile to="/report" v-if="logged">
-            <v-list-tile-title>My Profile</v-list-tile-title>
+        <v-list-tile-title>My Game Sheet</v-list-tile-title>
       </v-list-tile>
 
       <v-divider></v-divider>
 
       <v-list-tile to="/leaderboard">
         <v-list-tile-content>
-            <v-list-tile-title>Leaderboard</v-list-tile-title>
+          <v-list-tile-title>Leaderboard</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
@@ -23,7 +22,7 @@
 
       <v-list-tile to="/about">
         <v-list-tile-content>
-            <v-list-tile-title>Donate</v-list-tile-title>
+          <v-list-tile-title>Donate</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
@@ -31,7 +30,7 @@
 
       <v-list-tile v-if="logged" v-on:click="logout">
         <v-list-tile-content>
-            <v-list-tile-title>Logout</v-list-tile-title>
+          <v-list-tile-title>Logout</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
@@ -47,13 +46,15 @@
 
     <v-toolbar color="blue" app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" ></v-toolbar-side-icon>
-          <v-img style="position:absolute; top:5%; left:10%; right: 10%; height: 150px;
-    width: 200px;
-    max-width: 250px;
-    max-height: 90px;" src="https://i.ibb.co/VQSwxC8/Fantag.png"></v-img>
-
-        <v-spacer></v-spacer>
-
+      <router-link tag="button" to="leaderboard">
+      <v-img style="position:absolute; top:10%; left:20%; height: 120px;
+        width: 210px;
+        max-width: 250px;
+        max-height: 90px;" 
+        src="https://i.ibb.co/VQSwxC8/Fantag.png">
+      </v-img>
+    </router-link>
+      <v-spacer></v-spacer>
     </v-toolbar>
 
     <v-content>
@@ -75,9 +76,7 @@ export default {
     clipped: true,
     logged: false,
     username: '',
-
   }),
-
 
   methods: {
     logout () {
@@ -88,7 +87,6 @@ export default {
         .catch(e => (window.console.log('error logging out: ' + e)))
     }
   },
-
 
   mounted () {
     this.logged = this.$store.state.logged;

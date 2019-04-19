@@ -22,7 +22,7 @@
         </v-hover>
       </v-flex>
     </v-layout>
-      <v-btn :disabled="!checkSendForm()" v-on:click="sendForm()" color="success" to="report">Send</v-btn>
+      <v-btn :disabled="!checkSendForm()" v-on:click="sendForm()" color="success" to="report" large>Send</v-btn>
       <h1>{{ message }}</h1>
     </v-container>
 </template>
@@ -90,7 +90,6 @@
           tosend[username] = this.user_form
           HTTP.post('/user/post_data?data=' + JSON.stringify(tosend))
             .then((response) => {
-              window.console.log(response)
               if (response['data']['status'] === 'ok') {
                 this.$store.commit('addStatus', true)
                 this.message = 'Your request has been send'
