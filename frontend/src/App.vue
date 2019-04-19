@@ -5,6 +5,7 @@
         temporary
         app
         style="position:fixed; top:0; left:0; overflow-y:scroll;"
+
     >
       <v-list-tile to="/report" v-if="logged">
             <v-list-tile-title>My Profile</v-list-tile-title>
@@ -46,10 +47,10 @@
 
     <v-toolbar color="blue" app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" ></v-toolbar-side-icon>
-          <v-img style="position:absolute; top:2%; left:10%; right: 10%; height: 225px;
-    width: 100px;
-    max-width: 230px;
-    max-height: 230px;" src="https://i.ibb.co/hVFdqfd/Fantag3.png"></v-img>
+          <v-img style="position:absolute; top:5%; left:10%; right: 10%; height: 150px;
+    width: 200px;
+    max-width: 250px;
+    max-height: 90px;" src="https://i.ibb.co/VQSwxC8/Fantag.png"></v-img>
 
         <v-spacer></v-spacer>
 
