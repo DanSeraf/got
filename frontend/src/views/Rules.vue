@@ -1,5 +1,7 @@
 <template>
+<v-content>
   <RulesComp />
+</v-content>
 </template>
 
 <script>

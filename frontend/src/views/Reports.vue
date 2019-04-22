@@ -1,5 +1,7 @@
 <template>
+<v-content>
   <ReportComp />
+</v-content>
 </template>
 
 <script>

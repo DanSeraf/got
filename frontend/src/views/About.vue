@@ -1,7 +1,7 @@
 <template>
-  <div class="about">
+<v-content>
     <SimpleAbout/>
-  </div>
+</v-content>
 </template>
 
 <script>

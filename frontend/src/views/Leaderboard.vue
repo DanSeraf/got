@@ -1,5 +1,7 @@
 <template>
+<v-content>
   <LeaderboardComp />
+</v-content>
 </template>
 
 <script>

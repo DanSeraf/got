@@ -1,6 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout class="justify-center">
+<br/>
       <v-flex xs12 md5 s6 lg3>
         <h1 class="title-text"> Create a new account </h1>
         <v-form
@@ -31,7 +32,7 @@
     </v-form>
     <v-btn
       color="blue"
-      @click.native="handler()"
+      @click.native="signUpPost"
     >
       Sign Up
     </v-btn>
@@ -59,13 +60,15 @@ export default {
     signUpPost () {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
         () => {
-          alert('Your account has been created')
+          alert('Your account has been created, you can login without verify your email!')
+	this.post_user()
         },
         (err) => {
           alert('Error: ' + err.message)
           window.console.log('Problem with signin up: ' + err.message)
         },
       )
+	this.$router.replace('login')
     },
     
     post_user () {

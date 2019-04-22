@@ -86,13 +86,13 @@
 
         sendForm() {
           const tosend = {}
-          const username = this.$store.getters.username
-          tosend[username] = this.user_form
+          const email = this.$store.getters.email
+          tosend[email] = this.user_form
           HTTP.post('/user/post_data?data=' + JSON.stringify(tosend))
             .then((response) => {
               if (response['data']['status'] === 'ok') {
                 this.$store.commit('addStatus', true)
-                this.message = 'Your request has been send'
+		this.$router.go('report')
               } else {
                 this.message = 'Error'
               }

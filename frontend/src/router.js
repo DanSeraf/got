@@ -75,12 +75,14 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   const requiresAuthProf = to.matched.some(record => record.meta.requiresAuthProf);
   const stat = store.getters.posted
-  const logged = store.getters.logged == 'false'
+  const notlogged = store.getters.logged == 'false'
   var notposted = stat == 'false'
   var posted = stat == 'true'
 
-  if (requiresAuthProf && logged) {
-    next('report') 
+  if (requiresAuthProf && notlogged) {
+    next('leaderboard') 
+  } else if (requiresAuth && notlogged) {
+    next('report')
   } else if (requiresAuth && posted){
     next('report')
   } else if(requiresAuth && notposted){

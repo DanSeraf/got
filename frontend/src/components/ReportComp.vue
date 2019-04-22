@@ -2,9 +2,6 @@
   <v-container>
     <v-layout class="justify-center">
       <v-flex xs12 sm5 md4 lg3>
-          <v-btn to="/rules" v-if="!isCompleted" large>
-            complete your gamesheet!
-          </v-btn>
         <v-card flat class="text-xs-center ma-3" color="grey lighten-4">
           <h1>{{ username }} </h1>
           <h2>Game Sheet</h2>
@@ -23,7 +20,6 @@ import {HTTP} from '../http-common.js'
 export default {
   data: () => ({
     gamesheet: null,
-    isCompleted: false,
     username: '',
     live: ['DIE', 'LIVE']
   }),
@@ -34,8 +30,6 @@ export default {
     HTTP.post('/user/gamesheet?email='+email)
       .then((response) => {
         this.gamesheet = response.data
-        this.isCompleted = true
-        window.console.log(response.data)
       })
   },
 }
