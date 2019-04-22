@@ -213,12 +213,7 @@ export default {
 
     socialLoginGo() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider).then((result) => {
-        this.checkEmail(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.name)
-        this.checkLogin(result.additionalUserInfo.profile.email)
-      }).catch((err) => {
-        window.console.log('error on google login: ' + err)
-      });
+	firebase.auth().signInWithRedirect(provider);
     },
 
     checkLogin(email){
@@ -237,13 +232,7 @@ export default {
 
     socialLoginFb() {
       const provider = new firebase.auth.FacebookAuthProvider();
-      firebase.auth().signInWithPopup(provider).then((result) =>{
-        this.checkEmail(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.name)
-        this.checkLogin(result.additionalUserInfo.profile.email)
-      }).catch((err) => {
-        window.console.log('error while signin with facebook: ' + err)
-        alert('Oops.'+err.message)
-      });
+	firebase.auth().signInWithRedirect(provider);
     },
 
     checkEmail(email, username) {
@@ -255,6 +244,19 @@ export default {
         })
     }
   },
+
+	mounted () {
+	let user = firebase.auth().currentUser;
+	if(user) {
+      firebase.auth().getRedirectResult().then((result) =>{
+        this.checkEmail(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.name)
+        this.checkLogin(result.additionalUserInfo.profile.email)
+      }).catch((err) => {
+        window.console.log('error while signin with facebook: ' + err)
+        alert('Oops.'+err.message)
+      });
+}
+}
 }
 </script>
 
