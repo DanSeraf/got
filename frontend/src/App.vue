@@ -6,7 +6,17 @@
       app
       style="position:fixed; top:0; left:0; overflow-y:scroll;"
     >
-      <v-list-tile to="/report" v-if="logged">
+	
+	
+      <v-list-tile to="/rules" v-if="!posted && logged">
+        <v-list-tile-title>COMPILE YOUR GAMESHEET!</v-list-tile-title>
+      </v-list-tile>
+
+      <v-list-tile @click="goToGs" v-if="logged && !posted">
+        <v-list-tile-title>My Game Sheet</v-list-tile-title>
+      </v-list-tile>
+      
+      <v-list-tile to="/report" v-if="logged && posted">
         <v-list-tile-title>My Game Sheet</v-list-tile-title>
       </v-list-tile>
 
@@ -47,8 +57,8 @@
     <v-toolbar color="blue" app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" ></v-toolbar-side-icon>
       <router-link tag="button" to="leaderboard">
-      <v-img style="position:absolute; top:10%; left:20%; height: 120px;
-        width: 210px;
+      <v-img style="position:absolute; top:5%; left:20%; right:10%; height: 150px;
+        width: 200px;
         max-width: 250px;
         max-height: 90px;" 
         src="https://i.ibb.co/VQSwxC8/Fantag.png">
@@ -57,13 +67,11 @@
       <v-spacer></v-spacer>
     </v-toolbar>
 
-    <v-content>
       <transition name="fade" mode="out-in">
         <keep-alive>
           <router-view/>
         </keep-alive>
       </transition>
-    </v-content>
   </v-app>
 </template>
 
@@ -75,6 +83,7 @@ export default {
     drawer: false,
     clipped: true,
     logged: false,
+	posted: false,
     username: '',
   }),
 
@@ -85,17 +94,23 @@ export default {
         this.$router.replace('login')
       })
         .catch(e => (window.console.log('error logging out: ' + e)))
+    },
+    
+    goToGs () {
+	this.$router.go('report')
     }
   },
 
   mounted () {
     this.logged = this.$store.state.logged;
+	this.posted = this.$store.state.posted
     this.user = this.$store.getters.user;
     this.username = this.$store.getters.username;
   },
 
   updated () {
     this.logged = this.$store.state.logged;
+	this.posted = this.$store.state.posted
     this.user = this.$store.getters.user;
     this.username = this.$store.getters.username;
   },
