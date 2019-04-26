@@ -97,16 +97,14 @@ def postData():
     raw = request.args.get('data')
     data = ast.literal_eval(raw)
     for k in data:
-        print(k)
-        uname = k
+        mail = k
         raw_d = data[k]
-        q = Users.query.filter_by(username = uname).first()
+        q = Users.query.filter_by(email = mail).first()
         for k in raw_d:
-            print(k)
             to_add = Userscharacters(name=k, value=raw_d[k])
             q.characters.append(to_add)
     
-    user = Users.query.filter_by(username = uname).first()
+    user = Users.query.filter_by(email = mail).first()
     user.posted = True
     db.session.commit() 
 
@@ -122,4 +120,4 @@ def gameSheet():
     return json.dumps(raw_uc, cls=AlchemyEncoder)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8443, debug=True)
+    app.run(port=8000)
