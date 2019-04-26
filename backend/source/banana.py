@@ -20,11 +20,12 @@ class Users(db.Model):
     email = db.Column(db.String(80))
     username = db.Column(db.String(80))
     posted = db.Column(db.Boolean)
+    points = db.Column(db.Integer)
     
     characters = db.relationship('Userscharacters', backref='users', lazy='dynamic')
 
     def __repr__(self):
-        return '%s, %s, %s, %s' %(self.uid, self.email, self.username, self.posted)
+        return '%s, %s, %s, %s, %s' %(self.uid, self.email, self.username, self.posted, self.points)
 
 class Userscharacters(db.Model):
     __tablename__ = 'userscharacters'
@@ -42,9 +43,10 @@ class Characters(db.Model):
     cid = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80))
     pic = db.Column(db.String(80))
+    status = db.Column(db.Boolean)
 
     def __repr__(self):
-        return '%s, %s, %s' %(self.cid, self.name, self.pic)
+        return '%s, %s, %s, %s' %(self.cid, self.name, self.pic, self.status)
 
 def initCharacters():
     file = open('extrated.txt')
@@ -59,11 +61,28 @@ def mapDB():
     initCharacters()
     db.session.commit()
 
+def addPoints():
+    users = Users.query.filter_by(posted = True).all()
+    for raw_u in users:
+        user = raw_u.__dict__
+        points = 0
+        gamesheet = Userscharacters.query.filter_by(user_id = user['uid']).all()
+        for raw_ch in gamesheet:
+            user_ch = raw_ch.__dict__
+            raw_ch = Characters.query.filter_by(name = user_ch['name']).first()
+            character = raw_ch.__dict__
+            print(user_ch['value'])
+            print(character['status'])
+            if character['status'] == False and user_ch['value'] == character['status']:
+                points += 10
+        raw_u.points = points
+    db.session.commit()
+
 @app.route('/user/new-user', methods=['GET', 'POST'])
 def newUser():
     uname = request.args.get('username')
     email = request.args.get('email')
-    user = Users(email = email, username = uname, posted=False)
+    user = Users(email = email, username = uname, posted=False, points=0)
     db.session.add(user)
     db.session.commit()
     return jsonify({'status': 'ok'})
@@ -77,8 +96,8 @@ def allCharacters():
 def getUsername():
     email = request.args.get('email')
     try:
-        user = Users.query.filter_by(email = email).all()
-        res = user[0].__dict__
+        user = Users.query.filter_by(email = email).first()
+        res = user.__dict__
         username = res['username']
         posted = res['posted']
         return json.dumps({'status': 'ok', 'username': username, 'posted': posted})
@@ -119,5 +138,18 @@ def gameSheet():
     raw_uc = Userscharacters.query.filter_by(user_id = uid).all()
     return json.dumps(raw_uc, cls=AlchemyEncoder)
 
+@app.route('/leaderboard', methods=['GET'])
+def getLeaderboard():
+    users = Users.query.filter_by(posted = True).all()
+    leaderboard = []
+    for raw_u in users:
+        user = raw_u.__dict__
+        u_data = {}
+        u_data['username'] = user['username']
+        u_data['points'] = user['points']
+        leaderboard.append(u_data)
+    print(leaderboard)
+    return json.dumps(leaderboard)
+
 if __name__ == '__main__':
-    app.run(port=8000)
+    app.run(host='0.0.0.0', port=8443, debug=True)
