@@ -2,12 +2,15 @@
   <v-container>
     <v-layout class="justify-center">
       <v-flex xs12 sm5 md4 lg3>
-        <v-card flat class="text-xs-center ma-3" color="grey lighten-4">
-          <h1>{{ username }} </h1>
-          <h2>Game Sheet</h2>
-          <ul :key="sheet.ucid" v-for="sheet in gamesheet">
-            <li>{{ sheet.name }} - {{ live[sheet.value] }} </li>
-          </ul>
+        <v-card flat class="text-xs-center " color="#2096f3" style="border-radius: 8px;" >
+          <br>
+          <v-card-title flat class="text-xs-center"><h2>{{ username }}'s Game Sheet</h2></v-card-title>
+          <v-card flat class="text-xs-center ma-3" :color="color[sheet.value]" :key="sheet.ucid" v-for="sheet in gamesheet">
+            <v-card-text flat class="text-xs-center">
+              {{ sheet.name }} - {{ live[sheet.value] }}
+            </v-card-text>
+          </v-card>
+          <br>
         </v-card>
       </v-flex>
     </v-layout>
@@ -21,8 +24,13 @@ export default {
   data: () => ({
     gamesheet: null,
     username: '',
-    live: ['DIE', 'LIVE']
+    live: ['DIE', 'LIVE'],
+    color: ['red', 'green']
   }),
+
+  methods:{
+
+  },
 
   mounted(){
     this.username = this.$store.getters.username
@@ -32,5 +40,6 @@ export default {
         this.gamesheet = response.data
       })
   },
+
 }
 </script>
