@@ -6,7 +6,7 @@
           <br>
           <v-card-title flat class="text-xs-center"><h2>{{ username }}'s Game Sheet</h2></v-card-title>
           <v-card flat class="text-xs-center ma-3" :color="colors[sheet.value]" :key="sheet.ucid" v-for="sheet in gamesheet">
-            <v-card-text flat class="text-xs-center">
+            <v-card-text flat class="text-xs-center body-2">
               {{ sheet.name }} - {{ live[sheet.value] }}
             </v-card-text>
           </v-card>

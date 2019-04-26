@@ -56,8 +56,8 @@
       >
         <template v-slot:activator="{ on }">
           <v-btn
-		style="background: #2096f3 !important;"
-              v-on="on"
+					style="background: #2096f3 !important;"
+					v-on="on"
           >
           Privacy Policy
           </v-btn>

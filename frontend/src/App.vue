@@ -9,20 +9,34 @@
 	
 	
       <v-list-tile to="/rules" v-if="!posted && logged">
-        <v-list-tile-title>COMPILE YOUR GAMESHEET!</v-list-tile-title>
+        <v-icon>assignment</v-icon>
+        <v-spacer></v-spacer>
+        <v-list-tile-content>
+          <v-list-tile-title>Compile your GameSheet!</v-list-tile-title>
+        </v-list-tile-content>
       </v-list-tile>
 
       <v-list-tile @click="goToGs" v-if="logged && !posted">
-        <v-list-tile-title>My Game Sheet</v-list-tile-title>
+        <v-icon>assignment</v-icon>
+        <v-spacer></v-spacer>
+        <v-list-tile-content>
+          <v-list-tile-title>My Game Sheet</v-list-tile-title>
+        </v-list-tile-content>
       </v-list-tile>
       
       <v-list-tile to="/report" v-if="logged && posted">
-        <v-list-tile-title>My Game Sheet</v-list-tile-title>
+        <v-icon>assignment</v-icon>
+        <v-spacer></v-spacer>
+        <v-list-tile-content>
+          <v-list-tile-title>My Game Sheet</v-list-tile-title>
+        </v-list-tile-content>
       </v-list-tile>
 
       <v-divider></v-divider>
 
       <v-list-tile to="/leaderboard">
+        <v-icon>format_list_numbered</v-icon>
+        <v-spacer></v-spacer>
         <v-list-tile-content>
           <v-list-tile-title>Leaderboard</v-list-tile-title>
         </v-list-tile-content>
@@ -31,6 +45,8 @@
       <v-divider></v-divider>
 
       <v-list-tile to="/about">
+        <v-icon>attach_money</v-icon>
+        <v-spacer></v-spacer>
         <v-list-tile-content>
           <v-list-tile-title>Donate</v-list-tile-title>
         </v-list-tile-content>
@@ -39,6 +55,8 @@
       <v-divider></v-divider>
 
       <v-list-tile v-if="logged" v-on:click="logout">
+        <v-icon>exit_to_app</v-icon>
+        <v-spacer></v-spacer>
         <v-list-tile-content>
           <v-list-tile-title>Logout</v-list-tile-title>
         </v-list-tile-content>
@@ -47,6 +65,8 @@
       <v-divider></v-divider>
 
       <v-list-tile to="/login" v-if="!logged">
+        <v-icon>input</v-icon>
+        <v-spacer></v-spacer>
         <v-list-tile-content>
           <v-list-tile-title>Login</v-list-tile-title>
         </v-list-tile-content>
