@@ -225,7 +225,8 @@ export default {
           this.$store.commit('addStatus', this.posted)
           this.$store.commit('addEmail', email)
           this.$store.commit('logged')
-          this.$router.replace('rules')
+          //this.$router.replace('rules')
+					this.$router.replace('leaderboard')
         })
         .catch(e => (window.console.log('error while getting username: ' + e)));
     },

@@ -8,13 +8,13 @@
     >
 	
 	
-      <v-list-tile to="/rules" v-if="!posted && logged">
+      <!--<v-list-tile to="/rules" v-if="!posted && logged">
         <v-icon>assignment</v-icon>
         <v-spacer></v-spacer>
         <v-list-tile-content>
           <v-list-tile-title>Compile your GameSheet!</v-list-tile-title>
         </v-list-tile-content>
-      </v-list-tile>
+      </v-list-tile>-->
 
       <v-list-tile @click="goToGs" v-if="logged && !posted">
         <v-icon>assignment</v-icon>
