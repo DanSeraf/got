@@ -54,12 +54,11 @@
     mounted() {
       HTTP.get('/leaderboard')
         .then(response => {
-          let res=response.data.sort((a,b) => (a.points < b.points) ? 1 : -1)
+          let res=response.data.sort((a,b) => (a.points <= b.points) ? 1 : -1)
           let i=1
           for (let el in res){
             res[el]['rank']=i++
           }
-          window.console.log(res)
           this.leaderboard=res;
 
         })

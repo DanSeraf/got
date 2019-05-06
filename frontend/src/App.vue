@@ -16,14 +16,6 @@
         </v-list-tile-content>
       </v-list-tile>-->
 
-      <v-list-tile @click="goToGs" v-if="logged && !posted">
-        <v-icon>assignment</v-icon>
-        <v-spacer></v-spacer>
-        <v-list-tile-content>
-          <v-list-tile-title>My Game Sheet</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      
       <v-list-tile to="/report" v-if="logged && posted">
         <v-icon>assignment</v-icon>
         <v-spacer></v-spacer>
@@ -31,7 +23,7 @@
           <v-list-tile-title>My Game Sheet</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-
+      
       <v-divider></v-divider>
 
       <v-list-tile to="/leaderboard">

@@ -246,17 +246,14 @@ export default {
     }
   },
 
-	mounted () {
-	let user = firebase.auth().currentUser;
-	if(user) {
-      firebase.auth().getRedirectResult().then((result) =>{
-        this.checkEmail(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.name)
-        this.checkLogin(result.additionalUserInfo.profile.email)
-      }).catch((err) => {
-        window.console.log('error while signin with facebook: ' + err)
-        alert('Oops.'+err.message)
-      });
-}
+	   mounted () {
+	     let user = firebase.auth().currentUser;
+	     if(user) {
+	       firebase.auth().getRedirectResult().then((result) =>{
+		   this.checkEmail(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.name)
+		   this.checkLogin(result.additionalUserInfo.profile.email)
+		   })
+	     }
 }
 }
 </script>
