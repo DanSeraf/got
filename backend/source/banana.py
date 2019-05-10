@@ -74,9 +74,14 @@ def addPoints():
             print(user_ch['value'])
             print(character['status'])
             if character['status'] == False and user_ch['value'] == character['status']:
-                points += 10
+                points += 100
         raw_u.points = points
     db.session.commit()
+
+def resetPoints():
+    users = Users.query.filter_by(posted = True).all()
+    for raw_u in users:
+        raw_u.points = 0
 
 @app.route('/user/new-user', methods=['GET', 'POST'])
 def newUser():
@@ -148,8 +153,7 @@ def getLeaderboard():
         u_data['username'] = user['username']
         u_data['points'] = user['points']
         leaderboard.append(u_data)
-    print(leaderboard)
     return json.dumps(leaderboard)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8443, debug=True)
+    app.run()
