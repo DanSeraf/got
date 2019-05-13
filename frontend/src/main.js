@@ -13,12 +13,12 @@ Vue.config.productionTip = false
 let app = '';
 
 firebase.initializeApp({
-    apiKey: "AIzaSyD6CFDQRzrB9knEalmjvW_AKPbNJkqPZYA",
-    authDomain: "client-e06e0.firebaseapp.com",
-    databaseURL: "https://client-e06e0.firebaseio.com",
-    projectId: "client-e06e0",
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
     storageBucket: "",
-    messagingSenderId: "15110347449",
+    messagingSenderId: "",
 });
 
 firebase.auth().onAuthStateChanged(() => {
