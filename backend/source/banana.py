@@ -61,6 +61,15 @@ def mapDB():
     initCharacters()
     db.session.commit()
 
+def mapStatus():
+    characters_raw = Characters.query.all()
+    for ch_raw in characters_raw:
+        ch = ch_raw.__dict__
+        print(ch['name'])
+        inp = input('status')
+        ch_raw.status = inp
+    db.session.commit()
+
 def addPoints():
     users = Users.query.filter_by(posted = True).all()
     for raw_u in users:
@@ -73,7 +82,7 @@ def addPoints():
             character = raw_ch.__dict__
             print(user_ch['value'])
             print(character['status'])
-            if character['status'] == False and user_ch['value'] == character['status']:
+            if user_ch['value'] == character['status']:
                 points += 100
         raw_u.points = points
     db.session.commit()
