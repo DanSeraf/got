@@ -2,11 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import store from './store/index.js'
-//import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld.vue'
 import Login from './views/Login.vue'
 import SignUp from './views/SignUp.vue'
 import Reports from './views/Reports.vue'
-//import Rules from "./views/Rules";
+import Rules from "./views/Rules";
 import Leaderboard from "./views/Leaderboard";
 
 Vue.use(Router)
@@ -21,14 +21,14 @@ const router = new Router({
       path: '/',
       redirect: 'login'
     },
-    /*{
+    {
       path:'/rules',
       name:'rules',
       component: Rules,
       meta: {
         requiresAuth: true,
       }
-    },*/
+    },
     {
       path: '/about',
       name: 'about',
@@ -47,14 +47,14 @@ const router = new Router({
       name: 'signup',
       component: SignUp
     },
-    /*{
+    {
       path: '/home',
       name: 'home',
       component: HelloWorld,
       meta: {
         requiresAuth: true,
       }
-    },*/
+    },
     {
       path: '/report',
       name: 'reports',
@@ -82,9 +82,9 @@ router.beforeEach((to, from, next) => {
   if (requiresAuthProf && notlogged) {
     next('leaderboard') 
   } else if (requiresAuth && notlogged) {
-    next('leaderboard') //'report
+    next('report') //'report
   } else if (requiresAuth && posted){
-    next('leaderboard') //'report'
+    next('report') //'report'
   } else if(requiresAuth && notposted){
     next()
   } else { next() }

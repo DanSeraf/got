@@ -213,7 +213,7 @@ export default {
 
     socialLoginGo() {
       const provider = new firebase.auth.GoogleAuthProvider();
-	firebase.auth().signInWithRedirect(provider);
+      firebase.auth().signInWithRedirect(provider);
     },
 
     checkLogin(email){
@@ -225,15 +225,15 @@ export default {
           this.$store.commit('addStatus', this.posted)
           this.$store.commit('addEmail', email)
           this.$store.commit('logged')
-          //this.$router.replace('rules')
-					this.$router.replace('leaderboard')
+          this.$router.replace('rules')
+					//this.$router.replace('leaderboard')
         })
         .catch(e => (window.console.log('error while getting username: ' + e)));
     },
 
     socialLoginFb() {
       const provider = new firebase.auth.FacebookAuthProvider();
-	firebase.auth().signInWithRedirect(provider);
+      firebase.auth().signInWithRedirect(provider);
     },
 
     checkEmail(email, username) {
@@ -246,15 +246,15 @@ export default {
     }
   },
 
-	   mounted () {
-	     let user = firebase.auth().currentUser;
-	     if(user) {
-	       firebase.auth().getRedirectResult().then((result) =>{
-		   this.checkEmail(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.name)
-		   this.checkLogin(result.additionalUserInfo.profile.email)
-		   })
-	     }
-}
+  mounted () {
+    let user = firebase.auth().currentUser;
+    if(user) {
+      firebase.auth().getRedirectResult().then((result) =>{
+        this.checkEmail(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.name)
+        this.checkLogin(result.additionalUserInfo.profile.email)
+      })
+    }
+  }
 }
 </script>
 
@@ -283,8 +283,8 @@ export default {
      background-color: white !important;
   }
 
-.create-text {
-  color: blue;
-  padding-left: 2%;
-}
+  .create-text {
+    color: blue;
+    padding-left: 2%;
+  }
 </style>
